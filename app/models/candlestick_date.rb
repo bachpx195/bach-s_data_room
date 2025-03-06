@@ -1,0 +1,18 @@
+# == Schema Information
+#
+# Table name: candlestick_dates
+#
+#  id                  :bigint           not null, primary key
+#  merchandise_rate_id :bigint           not null
+#  date                :date
+#  open                :float(24)
+#  high                :float(24)
+#  close               :float(24)
+#  low                 :float(24)
+#  volumn              :float(24)
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#
+class CandlestickDate < ApplicationRecord
+  belongs_to :merchandise_rate
+end

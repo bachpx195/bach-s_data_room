@@ -1,23 +1,19 @@
+# == Schema Information
+#
+# Table name: date_events
+#
+#  id                       :bigint           not null, primary key
+#  date_master_id           :bigint           not null
+#  event_master_id          :bigint           not null
+#  merchandise_rate_id      :bigint           not null
+#  candlestick_date_info_id :bigint           not null
+#  note                     :text(65535)
+#  created_at               :datetime         not null
+#  updated_at               :datetime         not null
+#
 class DateEvent < ApplicationRecord
   belongs_to :date_master
   belongs_to :event_master
-  belongs_to :merchandise_rate, optional: true
-  belongs_to :day_analytic, optional: true
-
-  class << self
-    def create_nfp_data
-      nfp_event_id =  EventMaster.nfp.id
-      (2008..2029).each do |year|
-        (1..12).each do |month|
-          nfp_date = DateMaster.where(date_name: "Friday", month: month, year: year).order(date_number: :asc).first
-          if nfp_date
-            DateEvent.create(
-              event_master_id: nfp_event_id,
-              date_master_id: nfp_date.id
-            )
-          end
-        end
-      end
-    end
-  end
+  belongs_to :merchandise_rate
+  belongs_to :candlestick_date_info
 end
