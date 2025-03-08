@@ -10,4 +10,6 @@
 #  updated_at :datetime         not null
 #
 class Tag < ApplicationRecord
+  has_many :merchandises
+  has_many :merchandise_rates
 end

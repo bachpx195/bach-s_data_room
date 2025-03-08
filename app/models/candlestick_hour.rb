@@ -15,4 +15,10 @@
 #
 class CandlestickHour < ApplicationRecord
   belongs_to :merchandise_rate
+
+  class << self
+    def delete_duplicate
+      CandlestickHour.where.not(id: CandlestickHour.group(:date, :merchandise_rate_id).select("min(id)")).destroy_all
+    end
+  end
 end
