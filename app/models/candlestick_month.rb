@@ -21,11 +21,9 @@
 #  updated_at          :datetime         not null
 #
 class CandlestickMonth < ApplicationRecord
-  belongs_to :merchandise_rate
+  include CandlestickCommon
 
-  scope :sort_by_type, -> sort_type = :desc do
-    order(date: sort_type)
-  end
+  belongs_to :merchandise_rate
 
   class << self
     def delete_duplicate

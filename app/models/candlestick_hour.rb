@@ -21,6 +21,8 @@
 #  updated_at          :datetime         not null
 #
 class CandlestickHour < ApplicationRecord
+  include CandlestickCommon
+
   belongs_to :merchandise_rate
 
   class << self

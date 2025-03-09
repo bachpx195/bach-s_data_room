@@ -20,6 +20,8 @@
 #  updated_at          :datetime         not null
 #
 class CandlestickWeek < ApplicationRecord
+  include CandlestickCommon
+
   belongs_to :merchandise_rate
   belongs_to :week_master, optional: true
 
