@@ -81,22 +81,32 @@ GEM
     base64 (0.2.0)
     benchmark (0.4.0)
     bigdecimal (3.1.9)
+    binding_of_caller (1.0.1)
+      debug_inspector (>= 1.2.0)
     bootsnap (1.18.4)
       msgpack (~> 1.2)
     brakeman (7.0.0)
       racc
     builder (3.3.0)
+    byebug (11.1.3)
+    coderay (1.1.3)
     concurrent-ruby (1.3.5)
     connection_pool (2.5.0)
     crass (1.0.6)
+    csv (3.3.2)
     date (3.4.1)
     debug (1.10.0)
       irb (~> 1.10)
       reline (>= 0.3.8)
+    debug_inspector (1.2.0)
     drb (2.2.1)
     erubi (1.13.1)
     globalid (1.2.1)
       activesupport (>= 6.1)
+    httparty (0.22.0)
+      csv
+      mini_mime (>= 1.0.0)
+      multi_xml (>= 0.5.2)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
     io-console (0.8.0)
@@ -117,9 +127,12 @@ GEM
       net-pop
       net-smtp
     marcel (1.0.4)
+    method_source (1.1.0)
     mini_mime (1.1.5)
     minitest (5.25.4)
     msgpack (1.8.0)
+    multi_xml (0.7.1)
+      bigdecimal (~> 3.1)
     mysql2 (0.5.6)
     net-imap (0.5.6)
       date
@@ -154,6 +167,17 @@ GEM
     pp (0.6.2)
       prettyprint
     prettyprint (0.2.0)
+    pry (0.14.2)
+      coderay (~> 1.1)
+      method_source (~> 1.0)
+    pry-byebug (3.10.1)
+      byebug (~> 11.0)
+      pry (>= 0.13, < 0.15)
+    pry-rails (0.3.11)
+      pry (>= 0.13.0)
+    pry-stack_explorer (0.6.1)
+      binding_of_caller (~> 1.0)
+      pry (~> 0.13)
     psych (5.2.3)
       date
       stringio
@@ -264,8 +288,13 @@ DEPENDENCIES
   annotate
   bootsnap
   brakeman
+  byebug
   debug
+  httparty
   mysql2 (~> 0.5)
+  pry-byebug
+  pry-rails
+  pry-stack_explorer
   puma (>= 5.0)
   rails (~> 7.2.2, >= 7.2.2.1)
   rubocop-rails-omakase

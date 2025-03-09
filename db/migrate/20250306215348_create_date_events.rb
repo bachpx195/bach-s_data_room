@@ -4,7 +4,7 @@ class CreateDateEvents < ActiveRecord::Migration[7.2]
       t.references :date_master, null: false, foreign_key: true
       t.references :event_master, null: false, foreign_key: true
       t.references :merchandise_rate, null: false, foreign_key: true
-      t.references :candlestick_date_info, null: false, foreign_key: true
+      t.references :candlestick_date, null: false, foreign_key: true
       t.text :note
 
       t.timestamps

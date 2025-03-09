@@ -167,7 +167,6 @@ MERCHANDISE_RATE_DATA =[
  [ 46, 73, "SPX/D", "SPXUSD", 22, 1 ]
 ]
 
-
 if Tag.all.count == 0
   TAG_DATA.each do |data|
     Tag.create(id: data[0], title: data[2], slug: data[1], parent_id: data[3])
@@ -180,9 +179,26 @@ if Merchandise.all.count == 0
   end
 end
 
-
 if MerchandiseRate.all.count == 0
   MERCHANDISE_RATE_DATA.each do |data|
     MerchandiseRate.create(id: data[0], tag_id: data[1], name: data[2], slug: data[3], base_id: data[4], quote_id: data[5])
   end
+end
+
+if YearMaster.all.count == 0
+  YearMaster.create_data
+end
+
+if MonthMaster.all.count == 0
+  MonthMaster.create_data
+end
+
+if WeekMaster.all.count == 0
+  WeekMaster.create_data
+  WeekMaster.update_overlap_month
+  WeekMaster.update_number_in_month
+end
+
+if DateMaster.all.count == 0
+  DateMaster.create_data
 end
