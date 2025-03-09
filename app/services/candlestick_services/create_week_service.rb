@@ -102,7 +102,7 @@ module CandlestickServices
           low: low,
           close: close,
           volumn: record[5],
-          week_master_id: WeekMaster.find_by(start_date: record_date),
+          week_master_id: WeekMaster.find_by(start_date: record_date.strftime("%Y-%m-%d")).id,
           timestamp: record[0]
         })
       end
