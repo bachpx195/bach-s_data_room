@@ -15,5 +15,5 @@ class DateEvent < ApplicationRecord
   belongs_to :date_master
   belongs_to :event_master
   belongs_to :merchandise_rate
-  belongs_to :candlestick_date_info
+  belongs_to :candlestick_date, optional: true
 end

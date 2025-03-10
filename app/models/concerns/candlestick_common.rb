@@ -8,6 +8,12 @@ module CandlestickCommon
 
     scope :null_parent_id, -> do
       where(parent_id: nil)
-    end 
+    end
+
+    scope :find_by_merchandise_rate, -> merchandise_rate_id, limit do
+      where(merchandise_rate_id: merchandise_rate_id)
+      .limit(limit)
+      .sort_by_type
+    end
   end
 end

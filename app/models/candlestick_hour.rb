@@ -26,6 +26,11 @@ class CandlestickHour < ApplicationRecord
   belongs_to :merchandise_rate
 
   class << self
+    # Mục đích là tìm 100 giá trị trước và sau date được chọn
+    def range_between_date date, limit
+      [date - 100.hours, date + limit.hours, date + 1.hours]
+    end
+
     def delete_duplicate
       CandlestickHour.where.not(id: CandlestickHour.group(:date, :merchandise_rate_id).select("min(id)")).destroy_all
     end

@@ -17,16 +17,16 @@ class Api::V1::CandlesticksController < Api::V1::BaseApiController
     # @candlesticks_future là các cây nến trong thời gian tương lai để làm backtest (lấy thêm limit_records cây trong tương lai)
     if params[:date].present?
       date = params[:date].to_datetime
-      start_date, end_date, next_date = Candlestick.range_between_date date, time_type, limit_records
-      @candlesticks = Candlestick.find_by_merchandise_rate(merchandise_rate_id.to_i, time_type, limit_records)
+      start_date, end_date, next_date = candlestick_class(time_type).range_between_date date, limit_records
+      @candlesticks = candlestick_class(time_type).find_by_merchandise_rate(merchandise_rate_id.to_i, limit_records)
         .time_between(start_date, date)
-        .sort_by{|c| c.date.to_i}
-      @candlesticks_future = Candlestick.find_by_merchandise_rate(merchandise_rate_id.to_i, time_type, limit_records)
+        .sort_by{|c| c.timestamp}
+      @candlesticks_future = candlestick_class(time_type).find_by_merchandise_rate(merchandise_rate_id.to_i, limit_records)
         .time_between(next_date, end_date)
-        .sort_by{|c| c.date.to_i}
+        .sort_by{|c| c.timestamp}
     else
-      @candlesticks = Candlestick.find_by_merchandise_rate(merchandise_rate_id.to_i, time_type, limit_records)
-        .sort_by{|c| c.date.to_i}
+      @candlesticks = candlestick_class(time_type).find_by_merchandise_rate(merchandise_rate_id.to_i, limit_records)
+        .sort_by{|c| c.timestamp}
       @candlesticks_future = []
     end
   end
@@ -46,15 +46,7 @@ class Api::V1::CandlesticksController < Api::V1::BaseApiController
 
   def merchandise_rates
     time_type = params[:time_type]
-    list_merchandise_rate_ids = if time_type == "month"
-      CandlestickMonth.list_merchandise_rate_id(time_type)
-    elsif time_type == "hour"
-      CandlestickHour.list_merchandise_rate_id(time_type)
-    elsif time_type == "week"
-      CandlestickWeek.list_merchandise_rate_id(time_type)
-    else
-      CandlestickDate.list_merchandise_rate_id(time_type)
-    end
+    list_merchandise_rate_ids = candlestick_class(time_type).list_merchandise_rate_id(time_type)
     id_json = {}
     list_merchandise_rate_ids.each do |id|
       id_json[id.first] = MerchandiseRate.find(id.first).slug
@@ -68,7 +60,7 @@ class Api::V1::CandlesticksController < Api::V1::BaseApiController
     merchandise_rate_id = params[:merchandise_rate_id]
     using_markdown_text = params[:using_markdown_text]
 
-    monthly_return_json = Candlestick.calculate_month_return merchandise_rate_id, using_markdown_text
+    monthly_return_json = CandlestickMonth.calculate_month_return merchandise_rate_id, using_markdown_text
 
     render json: monthly_return_json
   end

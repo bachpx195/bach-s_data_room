@@ -26,6 +26,11 @@ class CandlestickWeek < ApplicationRecord
   belongs_to :week_master, optional: true
 
   class << self
+    # Mục đích là tìm 100 giá trị trước và sau date được chọn
+    def range_between_date date, limit
+      [date - 100.weeks, date + limit.weeks, date + 1.weeks]
+    end
+
     def delete_duplicate
       CandlestickWeek.where.not(id: CandlestickWeek.group(:date, :merchandise_rate_id).select("min(id)")).destroy_all
     end

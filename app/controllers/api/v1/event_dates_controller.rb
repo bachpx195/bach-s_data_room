@@ -3,7 +3,7 @@ class Api::V1::EventDatesController < Api::V1::BaseApiController
   before_action :set_merchandise_rate, only: [:index, :list_event]
 
   def index
-    start_date, end_date = @merchandise_rate.start_end_date Candlestick.time_types.key(params[:interval].to_i)
+    start_date, end_date = @merchandise_rate.start_end_date TIME_TYPES["#{params[:interval]}"]
     result_array = DateMaster.joins(:event_masters)
                       .where(event_masters: {id: @event_master.id})
                       .where("date_masters.date BETWEEN ? and ?", start_date, end_date)
