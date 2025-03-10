@@ -1,4 +1,11 @@
 class Api::V1::CandlesticksController < Api::V1::BaseApiController
+  TIME_TYPES = {
+    "1": "day",
+    "2": "week",
+    "3": "month",
+    "4": "hour"
+  }
+
   before_action :set_candlestick, only: [:info]
 
   def index
@@ -29,16 +36,10 @@ class Api::V1::CandlesticksController < Api::V1::BaseApiController
     result = true
 
     if time_type.present?
-      result = CreateCandlestickService.new(params["merchandise_rate_ids"], Candlestick.time_types.key(params["time_type"])).execute
+      result = CandlestickServices::CreateService.new(params["merchandise_rate_ids"], TIME_TYPES["#{params["time_type"]}"]).execute
     else
-      Candlestick.time_types.keys.each do |interval|
-        next if interval == 'm15'
-        result = result && CreateCandlestickService.new(params["merchandise_rate_ids"], interval).execute
-      end
+      result = CandlestickServices::CreateService.new(params["merchandise_rate_ids"]).execute
     end
-
-    Candlestick.update_candlestick_group
-    CandlestickInfo.create_parent_id
 
     render json: result
   end

@@ -35,4 +35,18 @@ class CandlestickHour < ApplicationRecord
       ActiveRecord::Base.connection.execute(sql)
     end
   end
+
+  def update_parent_id
+    return if self.check_hour_is_current_date
+
+    self.update(parent_id: CandlestickDate.find_by(date: date_with_binane)&.id)
+  end
+
+  def check_hour_is_current_hour
+    Time.now.strftime("%Y%m%d%H") === self.date.strftime("%Y%m%d%H")
+  end
+
+  def check_hour_is_current_date
+    Time.now.strftime("%Y%m%d") === self.date_with_binance.strftime("%Y%m%d")
+  end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_03_06_215348) do
+ActiveRecord::Schema[7.2].define(version: 2025_03_10_071154) do
   create_table "candlestick_dates", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "merchandise_rate_id", null: false
     t.date "date"
@@ -23,13 +23,15 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_06_215348) do
     t.float "close"
     t.float "low"
     t.float "volumn"
-    t.integer "timestamp"
+    t.string "timestamp"
     t.integer "parent_id"
     t.integer "parent_month_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["date"], name: "index_candlestick_dates_on_date"
     t.index ["merchandise_rate_id"], name: "index_candlestick_dates_on_merchandise_rate_id"
+    t.index ["parent_id"], name: "index_candlestick_dates_on_parent_id"
+    t.index ["parent_month_id"], name: "index_candlestick_dates_on_parent_month_id"
     t.index ["timestamp"], name: "index_candlestick_dates_on_timestamp"
   end
 
@@ -46,12 +48,13 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_06_215348) do
     t.float "close"
     t.float "low"
     t.float "volumn"
-    t.integer "timestamp"
+    t.string "timestamp"
     t.integer "parent_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["date"], name: "index_candlestick_hours_on_date"
     t.index ["merchandise_rate_id"], name: "index_candlestick_hours_on_merchandise_rate_id"
+    t.index ["parent_id"], name: "index_candlestick_hours_on_parent_id"
     t.index ["timestamp"], name: "index_candlestick_hours_on_timestamp"
   end
 
@@ -68,7 +71,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_06_215348) do
     t.float "close"
     t.float "low"
     t.float "volumn"
-    t.integer "timestamp"
+    t.string "timestamp"
     t.integer "parent_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -89,7 +92,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_06_215348) do
     t.float "low"
     t.float "volumn"
     t.integer "week_master_id"
-    t.integer "timestamp"
+    t.string "timestamp"
     t.integer "parent_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -178,7 +181,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_06_215348) do
 
   create_table "system_configs", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "key"
-    t.float "value"
+    t.string "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

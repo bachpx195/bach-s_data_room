@@ -25,6 +25,10 @@ class CandlestickDate < ApplicationRecord
 
   belongs_to :merchandise_rate
 
+  scope :null_parent_month_id, -> do
+    where(parent_month_id: nil)
+  end
+
   class << self
     def delete_duplicate
       CandlestickDate.where.not(id: CandlestickDate.group(:date, :merchandise_rate_id).select("min(id)")).destroy_all
@@ -34,5 +38,26 @@ class CandlestickDate < ApplicationRecord
       sql = "SELECT DISTINCT merchandise_rate_id FROM bach_s_data_room_development.candlestick_dates;"
       ActiveRecord::Base.connection.execute(sql)
     end
+  end
+
+  def update_parent_id
+    return if self.check_date_is_current_week
+
+    self.update(parent_id: CandlestickWeek.find_by(date: self.date.at_beginning_of_week.strftime("%Y-%m-%d"))&.id)
+  end
+
+  def update_parent_month_id
+    return if self.check_date_is_current_month
+    c_date = self.date
+
+    self.update(parent_month_id: CandlestickMonth.find_by(year: c_date.year, month: c_date.month)&.id)
+  end
+
+  def check_date_is_current_week
+    self.date >= Time.zone.now.at_beginning_of_week
+  end
+
+  def check_date_is_current_month
+    Time.now.strftime("%Y%m") == self.date.strftime("%Y%m")
   end
 end

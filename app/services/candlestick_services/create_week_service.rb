@@ -11,7 +11,6 @@ module CandlestickServices
       @merchandise_rate_ids = merchandise_rate_ids
     end
 
-    # b1: tao data btc
     def execute
       create_data
       CandlestickWeek.delete_duplicate
