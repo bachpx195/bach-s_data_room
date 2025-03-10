@@ -33,6 +33,10 @@ gem "httparty"
 gem "annotate"
 gem "activerecord-import"
 
+# https://www.honeybadger.io/blog/building-app-rails-vue-vuex/
+# cors config
+gem 'rack-cors'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
@@ -45,6 +49,6 @@ group :development, :test do
 
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'pry-byebug'
-  gem 'pry-rails'
+  # gem 'pry-rails'
   gem 'pry-stack_explorer'
 end

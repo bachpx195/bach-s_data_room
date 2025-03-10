@@ -33,7 +33,7 @@ module CandlestickServices
         result["month"] = CandlestickServices::CreateMonthService.new(merchandise_rate_ids).execute
         result["week"] = CandlestickServices::CreateWeekService.new(merchandise_rate_ids).execute
         result["date"] = CandlestickServices::CreateDateService.new(merchandise_rate_ids).execute
-        result["hour"] = CandlestickServices::CreateDateService.new(merchandise_rate_ids).execute
+        result["hour"] = CandlestickServices::CreateHourService.new(merchandise_rate_ids).execute
       end
 
       CandlestickServices::UpdateParentIdService.new.execute

@@ -13,5 +13,8 @@
 #  updated_at          :datetime         not null
 #
 class EventMaster < ApplicationRecord
+  has_many :date_events
+  has_many :date_masters, through: :date_events
+
   belongs_to :merchandise_rate
 end

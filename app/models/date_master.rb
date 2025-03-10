@@ -20,6 +20,12 @@ class DateMaster < ApplicationRecord
   belongs_to :year_master
   belongs_to :week_master
 
+  has_many :date_events
+  has_many :event_masters, through: :date_events
+  belongs_to :week_master, optional: true
+  belongs_to :month_master, optional: true
+  belongs_to :year_master, optional: true
+
   def from_days_ago(day_number)
     DateMaster.find_by(date: self.date - day_number.days)
   end

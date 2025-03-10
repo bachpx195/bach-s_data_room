@@ -17,6 +17,7 @@ class MerchandiseRate < ApplicationRecord
   has_many :candlestick_dates
   has_many :candlestick_hours
   has_many :date_events
+  has_many :event_masters
   belongs_to :tag
   belongs_to :base, class_name: "Merchandise"
   belongs_to :quote, class_name: "Merchandise"

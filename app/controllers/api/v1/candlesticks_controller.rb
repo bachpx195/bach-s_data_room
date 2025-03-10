@@ -1,11 +1,4 @@
 class Api::V1::CandlesticksController < Api::V1::BaseApiController
-  TIME_TYPES = {
-    "1": "day",
-    "2": "week",
-    "3": "month",
-    "4": "hour"
-  }
-
   before_action :set_candlestick, only: [:info]
 
   def index
@@ -36,7 +29,7 @@ class Api::V1::CandlesticksController < Api::V1::BaseApiController
     result = true
 
     if time_type.present?
-      result = CandlestickServices::CreateService.new(params["merchandise_rate_ids"], TIME_TYPES["#{params["time_type"]}"]).execute
+      result = CandlestickServices::CreateService.new(params["merchandise_rate_ids"], TIME_TYPES[:"#{params["time_type"]}"]).execute
     else
       result = CandlestickServices::CreateService.new(params["merchandise_rate_ids"]).execute
     end
@@ -67,49 +60,44 @@ class Api::V1::CandlesticksController < Api::V1::BaseApiController
 
   def info
     info_json = {}
-    candlestick_info_group = @candlestick.candlestick_info.group_candlestick_id
+    timestamp = @candlestick.timestamp
 
-    if(params["info_type"] == "day")
-      day_analytic = @candlestick.day_analytic
+    if params["info_type"] == "day"
 
       info_json[:close] = @candlestick&.close
-      info_json[:return_day] = day_analytic&.return_oc
-      info_json[:return_oc] = day_analytic&.return_oc
-      info_json[:return_hl] = day_analytic&.return_hl
+      info_json[:return_day] = @candlestick&.return_oc
+      info_json[:return_oc] = @candlestick&.return_oc
+      info_json[:return_hl] = @candlestick&.return_hl
 
-      btc_candlestick = CandlestickInfo.where(merchandise_rate_id: 34, group_candlestick_id: candlestick_info_group).last.candlestick
-      btc_day_analytic = btc_candlestick.day_analytic
-      info_json[:btc_return_day] = btc_day_analytic.return_oc
+      btc_candlestick = @candlestick_class.where(merchandise_rate_id: 34, timestamp: timestamp).last
+      info_json[:btc_return_day] = btc_candlestick.return_oc
       info_json[:btc_close] = btc_candlestick&.close
 
-      altbtc_candlestick = CandlestickInfo.where(merchandise_rate_id: 41, group_candlestick_id: candlestick_info_group).last.candlestick
-      altbtc_day_analytic = altbtc_candlestick.day_analytic
-      info_json[:altbtc_return_day] = altbtc_day_analytic.return_oc
+      altbtc_candlestick = @candlestick_class.where(merchandise_rate_id: 41, timestamp: timestamp).last
+      info_json[:altbtc_return_day] = altbtc_candlestick.return_oc
       info_json[:altbtc_close] = altbtc_candlestick&.close
     else
-      hour_analytic = @candlestick.hour_analytic
-
-      previous_day = Candlestick.where(merchandise_rate_id: hour_analytic.merchandise_rate_id, date: hour_analytic.date_with_binane).day.first
-      previous_day_info_group = previous_day.candlestick_info.group_candlestick_id
+      previous_day = CandlestickDate.find_by(merchandise_rate_id: @candlestick.merchandise_rate_id, date: @candlestick.date_with_binance - 1.days)
+      timestamp = previous_day.timestamp
       previous_24_hour = @candlestick.previous_24_hour
-      previous_24_hour_info_group = previous_24_hour.candlestick_info.group_candlestick_id
-      day_open = previous_day.open
+      previous_24_hour_timestamp = previous_24_hour.timestamp
+      day_open = previous_day.close
 
-      btc_candlestick = CandlestickInfo.where(merchandise_rate_id: 34, group_candlestick_id: candlestick_info_group).last.candlestick
-      btc_previous_day = CandlestickInfo.where(merchandise_rate_id: 34, group_candlestick_id: previous_day_info_group).last.candlestick
-      btc_previous_24_hour = CandlestickInfo.where(merchandise_rate_id: 34, group_candlestick_id: previous_24_hour_info_group).last.candlestick
-      btc_day_open = btc_previous_day.open
+      btc_candlestick = CandlestickHour.where(merchandise_rate_id: 34, timestamp: timestamp).last
+      btc_previous_day = CandlestickDate.where(merchandise_rate_id: 34, timestamp: timestamp).last
+      btc_previous_24_hour = CandlestickHour.where(merchandise_rate_id: 34, timestamp: previous_24_hour_timestamp).last
+      btc_day_open = btc_previous_day.close
 
-      altbtc_candlestick = CandlestickInfo.where(merchandise_rate_id: 41, group_candlestick_id: candlestick_info_group).last.candlestick
-      altbtc_previous_day = CandlestickInfo.where(merchandise_rate_id: 41, group_candlestick_id: previous_day_info_group).last.candlestick
-      altbtc_previous_24_hour = CandlestickInfo.where(merchandise_rate_id: 41, group_candlestick_id: previous_24_hour_info_group).last.candlestick
-      altbtc_day_open = altbtc_previous_day.open
+      altbtc_candlestick = CandlestickHour.where(merchandise_rate_id: 41, timestamp: timestamp).last
+      altbtc_previous_day = CandlestickDate.where(merchandise_rate_id: 41, timestamp: timestamp).last
+      altbtc_previous_24_hour = CandlestickHour.where(merchandise_rate_id: 41, timestamp: previous_24_hour_timestamp).last
+      altbtc_day_open = altbtc_previous_day.close
 
       info_json[:return_day] = ((@candlestick.close - day_open)*100/day_open).round(2)
       info_json[:return_24h] = ((@candlestick.close - previous_24_hour.close)*100/previous_24_hour.close).round(2)
       info_json[:close] = @candlestick&.close
-      info_json[:return_oc] = hour_analytic&.return_oc
-      info_json[:return_hl] = hour_analytic&.return_hl
+      info_json[:return_oc] = @candlestick&.return_oc
+      info_json[:return_hl] = @candlestick&.return_hl
 
       info_json[:btc_return_day] = ((btc_candlestick.close - btc_day_open)*100/btc_day_open).round(2)
       info_json[:btc_return_24h] = ((btc_candlestick.close - btc_previous_24_hour.close)*100/btc_previous_24_hour.close).round(2)
@@ -125,6 +113,11 @@ class Api::V1::CandlesticksController < Api::V1::BaseApiController
 
   private
   def set_candlestick
-    @candlestick = Candlestick.find(params[:id])
+    if params["info_type"] == "day"
+      @candlestick_class = CandlestickDate
+    else
+      @candlestick_class = CandlestickHour
+    end
+    @candlestick = @candlestick_class.find(params[:id])
   end
 end

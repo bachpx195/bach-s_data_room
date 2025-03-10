@@ -96,19 +96,19 @@ module CandlestickServices
         record_date = Time.at(record[0]/1000).to_datetime
         next if check_hour_is_current_hour record_date
         hour = record_date.strftime("%H").to_i
-        date_with_binane = hour < 7 ? record_date - 1.days : record_date
+        date_with_binance = hour < 7 ? record_date - 1.days : record_date
 
         open = record[1].to_f
         high = record[2].to_f
         low = record[3].to_f
         close = record[4].to_f
 
-        parent_id = CandlestickDate.find_by(date: date_with_binane)&.id
+        parent_id = CandlestickDate.find_by(merchandise_rate_id: merchandise_rate.id, date: date_with_binance)&.id
 
         candlestick_records.push({
           merchandise_rate_id: merchandise_rate.id,
           date: record_date,
-          date_with_binance: date_with_binane,
+          date_with_binance: date_with_binance,
           hour: hour,
           candlestick_type: open > close ? "decrease" : "increase",
           return_oc: ((close - open)/open).round(4)*100,

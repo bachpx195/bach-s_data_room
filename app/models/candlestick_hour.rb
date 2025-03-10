@@ -41,10 +41,15 @@ class CandlestickHour < ApplicationRecord
     end
   end
 
+  def previous_24_hour(mr_id=nil)
+    previous_hour = self.date - 24.hours
+    CandlestickHour.where(merchandise_rate_id: mr_id.present? ? mr_id : self.merchandise_rate_id, date: previous_hour).first
+  end
+
   def update_parent_id
     return if self.check_hour_is_current_date
 
-    self.update(parent_id: CandlestickDate.find_by(date: date_with_binane)&.id)
+    self.update(parent_id: CandlestickDate.find_by(date: date_with_binance)&.id)
   end
 
   def check_hour_is_current_hour

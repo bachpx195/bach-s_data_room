@@ -85,7 +85,6 @@ module CandlestickServices
           startTime: "#{start_time}000", limit: "1000" }
         )
       end
-      
       records = records.flatten(1)
       records.uniq!
       records
@@ -101,8 +100,8 @@ module CandlestickServices
         low = record[3].to_f
         close = record[4].to_f
 
-        parent_week_id = CandlestickWeek.find_by(date: record_date.at_beginning_of_week.strftime("%Y-%m-%d"))&.id
-        parent_month_id = CandlestickMonth.find_by(year: record_date.year, month: record_date.month)&.id
+        parent_week_id = CandlestickWeek.find_by(merchandise_rate_id: merchandise_rate.id, date: record_date.at_beginning_of_week.strftime("%Y-%m-%d"))&.id
+        parent_month_id = CandlestickMonth.find_by(merchandise_rate_id: merchandise_rate.id, year: record_date.year, month: record_date.month)&.id
 
         candlestick_records.push({
           merchandise_rate_id: merchandise_rate.id,
