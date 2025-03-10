@@ -29,5 +29,10 @@ class CandlestickWeek < ApplicationRecord
     def delete_duplicate
       CandlestickWeek.where.not(id: CandlestickWeek.group(:date, :merchandise_rate_id).select("min(id)")).destroy_all
     end
+
+    def list_merchandise_rate_id time_type="date"
+      sql = "SELECT DISTINCT merchandise_rate_id FROM bach_s_data_room_development.candlestick_weeks;"
+      ActiveRecord::Base.connection.execute(sql)
+    end
   end
 end

@@ -16,10 +16,6 @@ class MerchandiseRate < ApplicationRecord
   has_many :candlestick_weeks
   has_many :candlestick_dates
   has_many :candlestick_hours
-  has_many :candlestick_month_infos
-  has_many :candlestick_week_infos
-  has_many :candlestick_date_infos
-  has_many :candlestick_hour_infos
   has_many :date_events
   belongs_to :tag
   belongs_to :base, class_name: "Merchandise"
