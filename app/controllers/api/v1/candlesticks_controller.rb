@@ -24,6 +24,38 @@ class Api::V1::CandlesticksController < Api::V1::BaseApiController
     end
   end
 
+  def date_and_hour
+    limit_records = 10000
+    merchandise_rate_id = params[:merchandise_rate_id]
+    time_type = params[:time_type].to_i
+
+    # @candlesticks là các cây nến trong thời gian hiện tại (lấy limit_records cây)
+    # @candlesticks_future là các cây nến trong thời gian tương lai để làm backtest (lấy thêm limit_records cây trong tương lai)
+    if params[:date].present?
+      date = params[:date].to_datetime
+      start_date, end_date, next_date = candlestick_class(time_type).range_between_date date, limit_records
+      @candlesticks_date = CandlestickDate.find_by_merchandise_rate(merchandise_rate_id.to_i, limit_records)
+        .time_between(start_date, date - 1.days)
+        .sort_by{|c| c.timestamp}
+
+      @candlesticks_hour = CandlestickHour.where(merchandise_rate_id: merchandise_rate_id.to_i)
+        .where(date_with_binance: params[:date])
+        .sort_by{|c| c.timestamp}
+      @candlesticks_future = []
+    else
+      last_date = CandlestickDate.where(merchandise_rate_id: merchandise_rate_id.to_i).sort_by_type.first.date
+      @candlesticks = CandlestickDate.find_by_merchandise_rate(merchandise_rate_id.to_i, 7)
+        .where("date < ?", last_date)
+        .sort_by{|c| c.timestamp}
+
+      @candlesticks_hour = CandlestickHour.where(merchandise_rate_id: merchandise_rate_id.to_i)
+        .where(date_with_binance: last_date)
+        .sort_by{|c| c.timestamp}
+
+      @candlesticks_future = []
+    end
+  end
+
   def async_update_data
     time_type = params["time_type"]
     result = true

@@ -1,4 +1,3 @@
-
 module CandlestickServices
   class CreateService
     include Common::CreateCandlestick

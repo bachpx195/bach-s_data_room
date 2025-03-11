@@ -25,6 +25,7 @@ Rails.application.routes.draw do
           post "async_update_data", to: "candlesticks#async_update_data"
           get "merchandise_rates", to: "candlesticks#merchandise_rates"
           get "monthly_return", to: "candlesticks#monthly_return"
+          get "date_and_hour", to: "candlesticks#date_and_hour", format: 'json'
         end
       end
       resources :day_analytics, only: [:create], defaults: { format: "json" } do
