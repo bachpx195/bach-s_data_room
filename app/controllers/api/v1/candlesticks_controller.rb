@@ -44,7 +44,7 @@ class Api::V1::CandlesticksController < Api::V1::BaseApiController
       @candlesticks_future = []
     else
       last_date = CandlestickDate.where(merchandise_rate_id: merchandise_rate_id.to_i).sort_by_type.first.date
-      @candlesticks = CandlestickDate.find_by_merchandise_rate(merchandise_rate_id.to_i, 7)
+      @candlesticks = CandlestickDate.find_by_merchandise_rate(merchandise_rate_id.to_i, 30)
         .where("date < ?", last_date)
         .sort_by{|c| c.timestamp}
 

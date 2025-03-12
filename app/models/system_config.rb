@@ -4,7 +4,7 @@
 #
 #  id         :bigint           not null, primary key
 #  key        :string(255)
-#  value      :float(24)
+#  value      :string(255)
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #

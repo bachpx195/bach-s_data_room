@@ -15,7 +15,7 @@
 #  close               :float(24)
 #  low                 :float(24)
 #  volumn              :float(24)
-#  timestamp           :integer
+#  timestamp           :string(255)
 #  parent_id           :integer
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
@@ -24,6 +24,7 @@ class CandlestickHour < ApplicationRecord
   include CandlestickCommon
 
   belongs_to :merchandise_rate
+  belongs_to :candlestick_date, class_name: 'CandlestickDate', foreign_key: 'parent_id'
 
   class << self
     # Mục đích là tìm 100 giá trị trước và sau date được chọn

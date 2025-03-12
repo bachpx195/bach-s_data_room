@@ -6,7 +6,7 @@
 #  date_master_id      :bigint           not null
 #  event_master_id     :bigint           not null
 #  merchandise_rate_id :bigint           not null
-#  candlestick_date_id :bigint           not null
+#  candlestick_date_id :bigint
 #  note                :text(65535)
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null

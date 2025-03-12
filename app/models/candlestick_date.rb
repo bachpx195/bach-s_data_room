@@ -14,7 +14,7 @@
 #  close               :float(24)
 #  low                 :float(24)
 #  volumn              :float(24)
-#  timestamp           :integer
+#  timestamp           :string(255)
 #  parent_id           :integer
 #  parent_month_id     :integer
 #  created_at          :datetime         not null
@@ -23,6 +23,7 @@
 class CandlestickDate < ApplicationRecord
   include CandlestickCommon
 
+  has_many :candlestick_hours, foreign_key: "parent_id"
   belongs_to :merchandise_rate
 
   scope :null_parent_month_id, -> do

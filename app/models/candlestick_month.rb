@@ -15,7 +15,7 @@
 #  close               :float(24)
 #  low                 :float(24)
 #  volumn              :float(24)
-#  timestamp           :integer
+#  timestamp           :string(255)
 #  parent_id           :integer
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null

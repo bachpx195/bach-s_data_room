@@ -14,7 +14,7 @@
 #  low                 :float(24)
 #  volumn              :float(24)
 #  week_master_id      :integer
-#  timestamp           :integer
+#  timestamp           :string(255)
 #  parent_id           :integer
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
