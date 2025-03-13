@@ -28,30 +28,45 @@ Rails.application.routes.draw do
           get "date_and_hour", to: "candlesticks#date_and_hour", format: 'json'
         end
       end
-      resources :day_analytics, only: [:create], defaults: { format: "json" } do
-        collection do
-          post "update_hour_analytic", to: "day_analytics#update_hour_analytic"
-          get "last_updated_date", to: "day_analytics#last_updated_date"
-          get "merchandise_rates", to: "day_analytics#merchandise_rates"
-          post "update_continuous", to: "day_analytics#update_continuous"
-        end
-      end
-      resources :hour_analytics, only: [:index], defaults: { format: "json" } do
-        collection do
-          post "update_continuous", to: "hour_analytics#update_continuous"
-        end
-      end
-      resources :data_validations, only: [:show], defaults: { format: "json" } do
-        collection do
-          get "day_analytics", to: "data_validations#day_analytics"
-          get "hour_analytics", to: "data_validations#hour_analytics"
-        end
-      end
       resources :event_dates, only: [:index] do
         collection do
           get "list_event", to: "event_dates#list_event"
         end
       end
+      resources :candlestick_dates do
+        collection do
+          post "update_metric", to: "candlestick_dates#update_metric"
+        end
+      end
+
+
+      # resources :day_analytics, only: [:create], defaults: { format: "json" } do
+      #   collection do
+      #     post "update_hour_analytic", to: "day_analytics#update_hour_analytic"
+      #     get "last_updated_date", to: "day_analytics#last_updated_date"
+      #     get "merchandise_rates", to: "day_analytics#merchandise_rates"
+      #     post "update_continuous", to: "day_analytics#update_continuous"
+      #   end
+      # end
+      # resources :day_analytics, only: [:create], defaults: { format: "json" } do
+      #   collection do
+      #     post "update_hour_analytic", to: "day_analytics#update_hour_analytic"
+      #     get "last_updated_date", to: "day_analytics#last_updated_date"
+      #     get "merchandise_rates", to: "day_analytics#merchandise_rates"
+      #     post "update_continuous", to: "day_analytics#update_continuous"
+      #   end
+      # end
+      # resources :hour_analytics, only: [:index], defaults: { format: "json" } do
+      #   collection do
+      #     post "update_continuous", to: "hour_analytics#update_continuous"
+      #   end
+      # end
+      # resources :data_validations, only: [:show], defaults: { format: "json" } do
+      #   collection do
+      #     get "day_analytics", to: "data_validations#day_analytics"
+      #     get "hour_analytics", to: "data_validations#hour_analytics"
+      #   end
+      # end
     end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_03_10_071154) do
+ActiveRecord::Schema[7.2].define(version: 2025_03_10_224320) do
   create_table "candlestick_dates", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "merchandise_rate_id", null: false
     t.date "date"
@@ -105,11 +105,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_10_071154) do
     t.bigint "date_master_id", null: false
     t.bigint "event_master_id", null: false
     t.bigint "merchandise_rate_id", null: false
-    t.bigint "candlestick_date_id", null: false
+    t.bigint "candlestick_date_id"
     t.text "note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["candlestick_date_id"], name: "index_date_events_on_candlestick_date_id"
     t.index ["date_master_id"], name: "index_date_events_on_date_master_id"
     t.index ["event_master_id"], name: "index_date_events_on_event_master_id"
     t.index ["merchandise_rate_id"], name: "index_date_events_on_merchandise_rate_id"
@@ -169,6 +168,24 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_10_071154) do
     t.index ["tag_id"], name: "index_merchandises_on_tag_id"
   end
 
+  create_table "metric_dates", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "merchandise_rate_id"
+    t.bigint "candlestick_date_id"
+    t.integer "highest_hour_return_oc"
+    t.integer "highest_hour_return_hl"
+    t.integer "highest_hour_volumn"
+    t.float "hour_range_33_per"
+    t.float "hour_range_67_per"
+    t.integer "reverse_increase_hour"
+    t.integer "reverse_decrease_hour"
+    t.integer "continue_increase_hour"
+    t.integer "continue_decrease_hour"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["candlestick_date_id"], name: "index_metric_dates_on_candlestick_date_id"
+    t.index ["merchandise_rate_id"], name: "index_metric_dates_on_merchandise_rate_id"
+  end
+
   create_table "month_masters", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.date "start_date"
     t.integer "month"
@@ -218,7 +235,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_10_071154) do
   add_foreign_key "candlestick_hours", "merchandise_rates"
   add_foreign_key "candlestick_months", "merchandise_rates"
   add_foreign_key "candlestick_weeks", "merchandise_rates"
-  add_foreign_key "date_events", "candlestick_dates"
   add_foreign_key "date_events", "date_masters"
   add_foreign_key "date_events", "event_masters"
   add_foreign_key "date_events", "merchandise_rates"
@@ -228,6 +244,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_10_071154) do
   add_foreign_key "event_masters", "merchandise_rates"
   add_foreign_key "merchandise_rates", "tags"
   add_foreign_key "merchandises", "tags"
+  add_foreign_key "metric_dates", "candlestick_dates"
+  add_foreign_key "metric_dates", "merchandise_rates"
   add_foreign_key "month_masters", "year_masters"
   add_foreign_key "week_masters", "month_masters"
 end

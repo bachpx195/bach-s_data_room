@@ -50,7 +50,7 @@ class CandlestickHour < ApplicationRecord
   def update_parent_id
     return if self.check_hour_is_current_date
 
-    self.update(parent_id: CandlestickDate.find_by(date: date_with_binance)&.id)
+    self.update(parent_id: CandlestickDate.find_by(date: date_with_binance, merchandise_rate_id: self.merchandise_rate_id)&.id)
   end
 
   def check_hour_is_current_hour

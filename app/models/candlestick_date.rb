@@ -49,7 +49,7 @@ class CandlestickDate < ApplicationRecord
   def update_parent_id
     return if self.check_date_is_current_week
 
-    self.update(parent_id: CandlestickWeek.find_by(date: self.date.at_beginning_of_week.strftime("%Y-%m-%d"))&.id)
+    self.update(parent_id: CandlestickWeek.find_by(date: self.date.at_beginning_of_week.strftime("%Y-%m-%d"), merchandise_rate_id: self.merchandise_rate_id)&.id)
   end
 
   def update_parent_month_id
