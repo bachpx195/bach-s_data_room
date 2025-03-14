@@ -25,7 +25,7 @@ class Api::V1::CandlesticksController < Api::V1::BaseApiController
   end
 
   def date_and_hour
-    limit_records = 30
+    limit_records = 20
     merchandise_rate_id = params[:merchandise_rate_id]
     last_date = if params[:date].present?
       params[:date].to_datetime
