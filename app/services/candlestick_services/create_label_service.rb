@@ -14,6 +14,7 @@ module CandlestickServices
     def execute
       result = {}
       create_data
+      delete_duplicate
 
       merchandise_rate_ids.each do |merchandise_rate_id|
         merchandise_rate = MerchandiseRate.find(merchandise_rate_id)
@@ -29,7 +30,7 @@ module CandlestickServices
     def label_for_candlestick merchandise_rate, label
       candlestick_dates = merchandise_rate.candlestick_dates
       date_records = []
-      candlestick_dates = CandlestickDate.where("timestamp > ?", last_time_update_label(merchandise_rate, label, "candlestick_date"))
+      candlestick_dates = candlestick_dates.where("timestamp > ?", last_time_update_label(merchandise_rate, label, "candlestick_date"))
       build_label_candlestick date_records, candlestick_dates, label, merchandise_rate, "candlestick_date_id"
       if date_records.present?
         ActiveRecord::Base.transaction do
@@ -40,7 +41,7 @@ module CandlestickServices
       # Hour
       candlestick_hours = merchandise_rate.candlestick_hours
       hour_records = []
-      candlestick_hours = CandlestickHour.where("timestamp > ?", last_time_update_label(merchandise_rate, label, "candlestick_hour"))
+      candlestick_hours = candlestick_hours.where("timestamp > ?", last_time_update_label(merchandise_rate, label, "candlestick_hour"))
       build_label_candlestick hour_records, candlestick_hours, label, merchandise_rate,  "candlestick_hour_id"
       if hour_records.present?
         ActiveRecord::Base.transaction do
@@ -51,7 +52,7 @@ module CandlestickServices
       # week
       candlestick_weeks = merchandise_rate.candlestick_weeks
       week_records = []
-      candlestick_weeks = CandlestickWeek.where("timestamp > ?", last_time_update_label(merchandise_rate, label, "candlestick_week"))
+      candlestick_weeks = candlestick_weeks.where("timestamp > ?", last_time_update_label(merchandise_rate, label, "candlestick_week"))
       build_label_candlestick week_records, candlestick_weeks, label, merchandise_rate,  "candlestick_week_id"
       if week_records.present?
         ActiveRecord::Base.transaction do
@@ -62,7 +63,7 @@ module CandlestickServices
       # month
       candlestick_months = merchandise_rate.candlestick_months
       month_records = []
-      candlestick_months = CandlestickMonth.where("timestamp > ?", last_time_update_label(merchandise_rate, label, "candlestick_month"))
+      candlestick_months = candlestick_months.where("timestamp > ?", last_time_update_label(merchandise_rate, label, "candlestick_month"))
       build_label_candlestick month_records, candlestick_months, label, merchandise_rate,  "candlestick_month_id"
       if month_records.present?
         ActiveRecord::Base.transaction do
@@ -72,6 +73,13 @@ module CandlestickServices
     end
 
     private
+    def delete_duplicate
+      LabelCandlestickWeek.delete_duplicate
+      LabelCandlestickDate.delete_duplicate
+      LabelCandlestickHour.delete_duplicate
+      LabelCandlestickMonth.delete_duplicate
+    end
+
     def find_or_create_label
       labels = {}
 
@@ -91,7 +99,7 @@ module CandlestickServices
         candlestick_dates = merchandise_rate.candlestick_dates
         date_records = []
         labels.values.each do |label|
-          candlestick_dates = CandlestickDate.where("timestamp > ?", last_time_update_label(merchandise_rate, label, "candlestick_date"))
+          candlestick_dates = candlestick_dates.where("timestamp > ?", last_time_update_label(merchandise_rate, label, "candlestick_date"))
           build_label_candlestick date_records, candlestick_dates, label, merchandise_rate, "candlestick_date_id"
         end
         if date_records.present?
@@ -104,7 +112,7 @@ module CandlestickServices
         candlestick_hours = merchandise_rate.candlestick_hours
         hour_records = []
         labels.values.each do |label|
-          candlestick_hours = CandlestickHour.where("timestamp > ?", last_time_update_label(merchandise_rate, label, "candlestick_hour"))
+          candlestick_hours = candlestick_hours.where("timestamp > ?", last_time_update_label(merchandise_rate, label, "candlestick_hour"))
           build_label_candlestick hour_records, candlestick_hours, label, merchandise_rate,  "candlestick_hour_id"
         end
         if hour_records.present?
@@ -117,7 +125,7 @@ module CandlestickServices
         candlestick_weeks = merchandise_rate.candlestick_weeks
         week_records = []
         labels.values.each do |label|
-          candlestick_weeks = CandlestickWeek.where("timestamp > ?", last_time_update_label(merchandise_rate, label, "candlestick_week"))
+          candlestick_weeks = candlestick_weeks.where("timestamp > ?", last_time_update_label(merchandise_rate, label, "candlestick_week"))
           build_label_candlestick week_records, candlestick_weeks, label, merchandise_rate,  "candlestick_week_id"
         end
         if week_records.present?
@@ -130,7 +138,7 @@ module CandlestickServices
         candlestick_months = merchandise_rate.candlestick_months
         month_records = []
         labels.values.each do |label|
-          candlestick_months = CandlestickMonth.where("timestamp > ?", last_time_update_label(merchandise_rate, label, "candlestick_month"))
+          candlestick_months = candlestick_months.where("timestamp > ?", last_time_update_label(merchandise_rate, label, "candlestick_month"))
           build_label_candlestick month_records, candlestick_months, label, merchandise_rate,  "candlestick_month_id"
         end
         if month_records.present?

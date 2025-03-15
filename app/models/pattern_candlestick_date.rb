@@ -14,4 +14,10 @@ class PatternCandlestickDate < ApplicationRecord
   belongs_to :pattern
   belongs_to :candlestick_date
   belongs_to :merchandise_rate
+
+  class << self
+    def delete_duplicate
+      PatternCandlestickDate.where.not(id: PatternCandlestickDate.group(:pattern_id, :candlestick_date_id, :date).select("min(id)")).destroy_all
+    end
+  end
 end

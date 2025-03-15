@@ -33,6 +33,11 @@ Rails.application.routes.draw do
           get "list_event", to: "event_dates#list_event"
         end
       end
+      resources :patterns, only: [:index, :create] do
+        collection do
+          get "list_pattern", to: "patterns#list_pattern"
+        end
+      end
       resources :candlestick_dates do
         collection do
           post "update_metric", to: "candlestick_dates#update_metric"
@@ -40,14 +45,6 @@ Rails.application.routes.draw do
       end
 
 
-      # resources :day_analytics, only: [:create], defaults: { format: "json" } do
-      #   collection do
-      #     post "update_hour_analytic", to: "day_analytics#update_hour_analytic"
-      #     get "last_updated_date", to: "day_analytics#last_updated_date"
-      #     get "merchandise_rates", to: "day_analytics#merchandise_rates"
-      #     post "update_continuous", to: "day_analytics#update_continuous"
-      #   end
-      # end
       # resources :day_analytics, only: [:create], defaults: { format: "json" } do
       #   collection do
       #     post "update_hour_analytic", to: "day_analytics#update_hour_analytic"

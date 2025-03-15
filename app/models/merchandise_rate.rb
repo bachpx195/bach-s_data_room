@@ -18,6 +18,7 @@ class MerchandiseRate < ApplicationRecord
   has_many :candlestick_hours
   has_many :date_events
   has_many :event_masters
+  has_many :patterns
   has_many :metric_dates
   has_many :pattern_candlestick_dates
   has_many :label_candlestick_dates
