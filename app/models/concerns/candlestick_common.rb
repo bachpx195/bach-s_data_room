@@ -24,4 +24,32 @@ module CandlestickCommon
       .sort_by_type
     end
   end
+
+  def before_candlestick
+    before_date = self.date - 1.send(self.class::C_TYPE)
+    self.class.where(merchandise_rate: self.merchandise_rate, date: before_date).first
+  end
+
+  def next_candlestick
+    before_date = self.date + 1.send(self.class::C_TYPE)
+    self.class.where(merchandise_rate: self.merchandise_rate, date: before_date).first
+  end
+
+  def btc_candlestick
+    self.class.where(merchandise_rate: 34, timestamp: self.timestamp).first
+  end
+
+  def is_inside?
+    before_c = self.before_candlestick
+    return false if !before_c.present?
+
+    self.high < before_c.high && self.low > before_c.low
+  end
+
+  def is_same_btc?
+    btc_c = self.btc_candlestick
+    return true if !btc_c.present?
+
+    btc_c.candlestick_type == self.candlestick_type
+  end
 end

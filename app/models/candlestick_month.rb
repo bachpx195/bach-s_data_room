@@ -23,6 +23,11 @@
 class CandlestickMonth < ApplicationRecord
   include CandlestickCommon
 
+  C_TYPE = "months".freeze
+
+  has_many :label_candlestick_months, dependent: :destroy
+  has_many :labels, through: :label_candlestick_months
+
   belongs_to :merchandise_rate
 
   scope :find_monthly_candlestick, -> merchandise_rate_id do

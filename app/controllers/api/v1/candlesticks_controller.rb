@@ -43,12 +43,14 @@ class Api::V1::CandlesticksController < Api::V1::BaseApiController
 
   def async_update_data
     time_type = params["time_type"]
-    result = true
+    result = {}
 
     if time_type.present?
-      result = CandlestickServices::CreateService.new(params["merchandise_rate_ids"], TIME_TYPES[:"#{params["time_type"]}"]).execute
+      result[:create_candlestick] = CandlestickServices::CreateService.new(params["merchandise_rate_ids"], TIME_TYPES[:"#{params["time_type"]}"]).execute
     else
-      result = CandlestickServices::CreateService.new(params["merchandise_rate_ids"]).execute
+      result[:create_candlestick] = CandlestickServices::CreateService.new(params["merchandise_rate_ids"]).execute
+      result[:create_metric_date] = CandlestickServices::CreateMetricDateService.new(params["merchandise_rate_ids"]).execute
+      result[:create_label] = CandlestickServices::CreateLabelService.new.execute
     end
 
     render json: result

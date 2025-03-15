@@ -19,6 +19,11 @@ class MerchandiseRate < ApplicationRecord
   has_many :date_events
   has_many :event_masters
   has_many :metric_dates
+  has_many :label_candlestick_dates
+  has_many :label_candlestick_hours
+  has_many :label_candlestick_weeks
+  has_many :label_candlestick_months
+
   belongs_to :tag
   belongs_to :base, class_name: "Merchandise"
   belongs_to :quote, class_name: "Merchandise"
@@ -38,6 +43,10 @@ class MerchandiseRate < ApplicationRecord
   def start_end_date(interval = "hour")
     merchandise_rate_candlestick_dates = send("candlestick_#{interval}s".to_sym).sort_by_type(:desc).pluck(:date)
     [ merchandise_rate_candlestick_dates.last, merchandise_rate_candlestick_dates.first ]
+  end
+
+  def is_btc?
+    self.id == 34
   end
 
   private

@@ -23,6 +23,11 @@
 class CandlestickHour < ApplicationRecord
   include CandlestickCommon
 
+  C_TYPE = "hours".freeze
+
+  has_many :label_candlestick_hours, dependent: :destroy
+  has_many :labels, through: :label_candlestick_hours
+
   belongs_to :merchandise_rate
   belongs_to :candlestick_date, class_name: 'CandlestickDate', foreign_key: 'parent_id'
 

@@ -22,6 +22,11 @@
 class CandlestickWeek < ApplicationRecord
   include CandlestickCommon
 
+  C_TYPE = "weeks".freeze
+
+  has_many :label_candlestick_weeks, dependent: :destroy
+  has_many :labels, through: :label_candlestick_weeks
+
   belongs_to :merchandise_rate
   belongs_to :week_master, optional: true
 

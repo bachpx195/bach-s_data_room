@@ -147,37 +147,45 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_14_120043) do
   create_table "label_candlestick_dates", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "label_id", null: false
     t.bigint "candlestick_date_id", null: false
+    t.bigint "merchandise_rate_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["candlestick_date_id"], name: "index_label_candlestick_dates_on_candlestick_date_id"
     t.index ["label_id"], name: "index_label_candlestick_dates_on_label_id"
+    t.index ["merchandise_rate_id"], name: "index_label_candlestick_dates_on_merchandise_rate_id"
   end
 
   create_table "label_candlestick_hours", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "label_id", null: false
     t.bigint "candlestick_hour_id", null: false
+    t.bigint "merchandise_rate_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["candlestick_hour_id"], name: "index_label_candlestick_hours_on_candlestick_hour_id"
     t.index ["label_id"], name: "index_label_candlestick_hours_on_label_id"
+    t.index ["merchandise_rate_id"], name: "index_label_candlestick_hours_on_merchandise_rate_id"
   end
 
   create_table "label_candlestick_months", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "label_id", null: false
     t.bigint "candlestick_month_id", null: false
+    t.bigint "merchandise_rate_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["candlestick_month_id"], name: "index_label_candlestick_months_on_candlestick_month_id"
     t.index ["label_id"], name: "index_label_candlestick_months_on_label_id"
+    t.index ["merchandise_rate_id"], name: "index_label_candlestick_months_on_merchandise_rate_id"
   end
 
   create_table "label_candlestick_weeks", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "label_id", null: false
     t.bigint "candlestick_week_id", null: false
+    t.bigint "merchandise_rate_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["candlestick_week_id"], name: "index_label_candlestick_weeks_on_candlestick_week_id"
     t.index ["label_id"], name: "index_label_candlestick_weeks_on_label_id"
+    t.index ["merchandise_rate_id"], name: "index_label_candlestick_weeks_on_merchandise_rate_id"
   end
 
   create_table "labels", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -289,12 +297,16 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_14_120043) do
   add_foreign_key "event_masters", "merchandise_rates"
   add_foreign_key "label_candlestick_dates", "candlestick_dates"
   add_foreign_key "label_candlestick_dates", "labels"
+  add_foreign_key "label_candlestick_dates", "merchandise_rates"
   add_foreign_key "label_candlestick_hours", "candlestick_hours"
   add_foreign_key "label_candlestick_hours", "labels"
+  add_foreign_key "label_candlestick_hours", "merchandise_rates"
   add_foreign_key "label_candlestick_months", "candlestick_months"
   add_foreign_key "label_candlestick_months", "labels"
+  add_foreign_key "label_candlestick_months", "merchandise_rates"
   add_foreign_key "label_candlestick_weeks", "candlestick_weeks"
   add_foreign_key "label_candlestick_weeks", "labels"
+  add_foreign_key "label_candlestick_weeks", "merchandise_rates"
   add_foreign_key "merchandise_rates", "tags"
   add_foreign_key "merchandises", "tags"
   add_foreign_key "metric_dates", "candlestick_dates"
