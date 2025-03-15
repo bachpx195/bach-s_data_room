@@ -14,7 +14,7 @@ class Api::V1::EventDatesController < Api::V1::BaseApiController
   end
 
   def list_event
-    result_array = @merchandise_rate.event_masters.map{|em| [em.id, em.name, em.slug]}
+    result_array = @merchandise_rate.event_masters.map{|em| [em.id, em.name, em.slug, "event"]} + result_array = @merchandise_rate.patterns.map{|em| [em.id, em.name, em.slug, "pattern"]}
 
     render json: result_array
   end
