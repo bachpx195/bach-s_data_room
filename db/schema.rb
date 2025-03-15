@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_03_14_120043) do
+ActiveRecord::Schema[7.2].define(version: 2025_03_15_055907) do
   create_table "candlestick_dates", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "merchandise_rate_id", null: false
     t.date "date"
@@ -249,6 +249,30 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_14_120043) do
     t.index ["year_master_id"], name: "index_month_masters_on_year_master_id"
   end
 
+  create_table "pattern_candlestick_dates", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "pattern_id", null: false
+    t.bigint "candlestick_date_id", null: false
+    t.bigint "merchandise_rate_id", null: false
+    t.date "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["candlestick_date_id"], name: "index_pattern_candlestick_dates_on_candlestick_date_id"
+    t.index ["merchandise_rate_id"], name: "index_pattern_candlestick_dates_on_merchandise_rate_id"
+    t.index ["pattern_id"], name: "index_pattern_candlestick_dates_on_pattern_id"
+  end
+
+  create_table "patterns", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "name"
+    t.string "slug"
+    t.text "description"
+    t.string "pattern_type"
+    t.bigint "merchandise_rate_id", null: false
+    t.integer "parent_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["merchandise_rate_id"], name: "index_patterns_on_merchandise_rate_id"
+  end
+
   create_table "system_configs", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "key"
     t.string "value"
@@ -312,5 +336,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_14_120043) do
   add_foreign_key "metric_dates", "candlestick_dates"
   add_foreign_key "metric_dates", "merchandise_rates"
   add_foreign_key "month_masters", "year_masters"
+  add_foreign_key "pattern_candlestick_dates", "candlestick_dates"
+  add_foreign_key "pattern_candlestick_dates", "merchandise_rates"
+  add_foreign_key "pattern_candlestick_dates", "patterns"
+  add_foreign_key "patterns", "merchandise_rates"
   add_foreign_key "week_masters", "month_masters"
 end

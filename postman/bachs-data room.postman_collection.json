@@ -1,0 +1,506 @@
+{
+	"info": {
+		"_postman_id": "b573aa2f-9f60-4193-a636-d11b66a6bc02",
+		"name": "bachs-data room",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1904453"
+	},
+	"item": [
+		{
+			"name": "Merchandise rate",
+			"item": [
+				{
+					"name": "Get list merchandise rate",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"description": "Lấy list của merchandise\n\n```\n[\n    {\n        \"id\": 34,\n        \"slug\": \"BTCUSDT\"\n    },\n    {\n        \"id\": 35,\n        \"slug\": \"LTCUSDT\"\n    },\n    {\n        \"id\": 36,\n        \"slug\": \"BATUSDT\"\n    },\n    {\n        \"id\": 37,\n        \"slug\": \"DOTUSDT\"\n    },\n    {\n        \"id\": 38,\n        \"slug\": \"XRPUSDT\"\n    },\n    {\n        \"id\": 39,\n        \"slug\": \"DOTBTC\"\n    }\n]\n\n```"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Candlestick",
+			"item": [
+				{
+					"name": "Get list candlestick",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{v1}}/candlesticks?time_type=3&merchandise_rate_id=35",
+							"host": [
+								"{{v1}}"
+							],
+							"path": [
+								"candlesticks"
+							],
+							"query": [
+								{
+									"key": "time_type",
+									"value": "3"
+								},
+								{
+									"key": "merchandise_rate_id",
+									"value": "35"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Async update data",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"merchandise_rate_ids\": [\n        34, // btc\n        35, // ltc\n        41, // ltc/btc\n        37, // dot\n        39, // dot/btc\n        42, // link\n        43 // link/btc\n    ]\n    // \"time_type\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{v1}}/candlesticks/async_update_data",
+							"host": [
+								"{{v1}}"
+							],
+							"path": [
+								"candlesticks",
+								"async_update_data"
+							]
+						},
+						"description": "Dùng để update data candlestick từ binance\n\n- Lưu ý  \n    \n- Không truyền time_type sẽ update toàn bộ các time\n    \n\ntime_type: {day: 1, week: 2, month: 3, hour: 4, m15: 5}"
+					},
+					"response": []
+				},
+				{
+					"name": "get list merchandise rate",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{v1}}/candlesticks/merchandise_rates?time_type=day",
+							"host": [
+								"{{v1}}"
+							],
+							"path": [
+								"candlesticks",
+								"merchandise_rates"
+							],
+							"query": [
+								{
+									"key": "time_type",
+									"value": "day"
+								}
+							]
+						},
+						"description": "Dùng để update data candlestick từ binance\n\n- Lưu ý  \n    \n- Không truyền time_type sẽ update toàn bộ các time\n    \n\ntime_type: {day: 1, week: 2, month: 3, hour: 4, m15: 5}"
+					},
+					"response": []
+				},
+				{
+					"name": "get monthly return",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{v1}}/candlesticks/monthly_return?using_markdown_text=true&merchandise_rate_id=34",
+							"host": [
+								"{{v1}}"
+							],
+							"path": [
+								"candlesticks",
+								"monthly_return"
+							],
+							"query": [
+								{
+									"key": "using_markdown_text",
+									"value": "true"
+								},
+								{
+									"key": "merchandise_rate_id",
+									"value": "34"
+								}
+							]
+						},
+						"description": "Dùng để update data candlestick từ binance\n\n- Lưu ý  \n    \n- Không truyền time_type sẽ update toàn bộ các time\n    \n\ntime_type: {day: 1, week: 2, month: 3, hour: 4, m15: 5}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Candlestick date",
+			"item": [
+				{
+					"name": "update metric",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"merchandise_rate_ids\": [\n        34, // btc\n        35, // ltc\n        41, // ltc/btc\n        37, // dot\n        39, // dot/btc\n        42, // link\n        43 // link/btc\n    ]\n    // \"time_type\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{v1}}/candlestick_dates/update_metric",
+							"host": [
+								"{{v1}}"
+							],
+							"path": [
+								"candlestick_dates",
+								"update_metric"
+							]
+						},
+						"description": "Dùng để update data candlestick từ binance\n\n- Lưu ý  \n    \n- Không truyền time_type sẽ update toàn bộ các time\n    \n\ntime_type: {day: 1, week: 2, month: 3, hour: 4, m15: 5}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Day analytic",
+			"item": [
+				{
+					"name": "Update day analytic",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"merchandise_rate_ids\": [\n        // btc\n        // 34\n        // ltc\n        35\n        // ltc/btc\n        // 41\n        // dot\n        // 37,\n        // dot/btc\n        // 39,\n        // link\n        // 42\n        // link/btc\n        // 43\n    ],\n    \"start_date\": \"2022-01-20\"\n    // \"time_type\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{v1}}/day_analytics/update_hour_analytic",
+							"host": [
+								"{{v1}}"
+							],
+							"path": [
+								"day_analytics",
+								"update_hour_analytic"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create day analytic",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"merchandise_rate_ids\": [\n        // btc\n        // 34,\n        // ltc\n        // 35.\n        // ltc/btc\n        // 41,\n        // dot\n        // 37\n        // dot/btc\n        // 39,\n        // link\n        // 42,\n        // link/btc\n        43\n    ],\n    \"start_date\": \"2022-01-18\"\n    // \"time_type\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{v1}}/day_analytics",
+							"host": [
+								"{{v1}}"
+							],
+							"path": [
+								"day_analytics"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "last_updated_date",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{v1}}/day_analytics/last_updated_date?merchandise_rate_id=43",
+							"host": [
+								"{{v1}}"
+							],
+							"path": [
+								"day_analytics",
+								"last_updated_date"
+							],
+							"query": [
+								{
+									"key": "merchandise_rate_id",
+									"value": "43"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list_merchanse_rate",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{v1}}/day_analytics/merchandise_rates",
+							"host": [
+								"{{v1}}"
+							],
+							"path": [
+								"day_analytics",
+								"merchandise_rates"
+							]
+						},
+						"description": "List danh sách các merchandise rate có day_analytics và số lượng record (đảm bảo số lượng các record này là giống nhau)"
+					},
+					"response": []
+				},
+				{
+					"name": "Update continue type",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"merchandise_rate_id\": [\n        // btc\n        // 34\n        // ltc\n        35\n        // ltc/btc\n        // 41\n        // dot\n        // 37,\n        // dot/btc\n        // 39,\n        // link\n        // 42\n        // link/btc\n        // 43\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{v1}}/day_analytics/update_continuous",
+							"host": [
+								"{{v1}}"
+							],
+							"path": [
+								"day_analytics",
+								"update_continuous"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Hour analytic",
+			"item": [
+				{
+					"name": "List merchandise rate",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{v1}}/hour_analytics",
+							"host": [
+								"{{v1}}"
+							],
+							"path": [
+								"hour_analytics"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update hour continuous",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"merchandise_rate_ids\": [\n        // btc\n        // 34,\n        // ltc\n        // 35\n        // ltc/btc\n        // 41\n        // dot\n        // 37,\n        // dot/btc\n        // 39,\n        // link\n        42\n        // link/btc\n        // 43\n    ],\n    \"start_date\": \"2022-1-19\"\n    // \"time_type\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{v1}}/hour_analytics/update_continuous",
+							"host": [
+								"{{v1}}"
+							],
+							"path": [
+								"hour_analytics",
+								"update_continuous"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Event Date",
+			"item": [
+				{
+					"name": "List merchandise rate",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{v1}}/event_dates?event_id=1&interval=hour&merchandise_rate_id=35",
+							"host": [
+								"{{v1}}"
+							],
+							"path": [
+								"event_dates"
+							],
+							"query": [
+								{
+									"key": "event_id",
+									"value": "1"
+								},
+								{
+									"key": "interval",
+									"value": "hour"
+								},
+								{
+									"key": "merchandise_rate_id",
+									"value": "35"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Charts",
+			"item": [
+				{
+					"name": "highest_return_hour_in_day",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{v1}}/charts/effect_hour_candlestick_type_in_day?merchandise_rate_id=35&day_number=10",
+							"host": [
+								"{{v1}}"
+							],
+							"path": [
+								"charts",
+								"effect_hour_candlestick_type_in_day"
+							],
+							"query": [
+								{
+									"key": "merchandise_rate_id",
+									"value": "35"
+								},
+								{
+									"key": "day_number",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "effect_hour_candlestick_type_in_day Copy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{v1}}/charts/effect_hour_candlestick_type_in_day?merchandise_rate_id=35&day_number=10",
+							"host": [
+								"{{v1}}"
+							],
+							"path": [
+								"charts",
+								"effect_hour_candlestick_type_in_day"
+							],
+							"query": [
+								{
+									"key": "merchandise_rate_id",
+									"value": "35"
+								},
+								{
+									"key": "day_number",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Data Validations",
+			"item": [
+				{
+					"name": "day analytics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{v1}}/charts/effect_hour_candlestick_type_in_day?merchandise_rate_id=35&day_number=10",
+							"host": [
+								"{{v1}}"
+							],
+							"path": [
+								"charts",
+								"effect_hour_candlestick_type_in_day"
+							],
+							"query": [
+								{
+									"key": "merchandise_rate_id",
+									"value": "35"
+								},
+								{
+									"key": "day_number",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "hour analytics",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{v1}}/charts/effect_hour_candlestick_type_in_day?merchandise_rate_id=35&day_number=10",
+							"host": [
+								"{{v1}}"
+							],
+							"path": [
+								"charts",
+								"effect_hour_candlestick_type_in_day"
+							],
+							"query": [
+								{
+									"key": "merchandise_rate_id",
+									"value": "35"
+								},
+								{
+									"key": "day_number",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

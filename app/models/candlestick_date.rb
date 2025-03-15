@@ -28,6 +28,8 @@ class CandlestickDate < ApplicationRecord
   has_many :candlestick_hours, foreign_key: "parent_id"
   has_many :label_candlestick_dates, dependent: :destroy
   has_many :labels, through: :label_candlestick_dates
+  has_many :pattern_candlestick_dates, dependent: :destroy
+  has_many :patterns, through: :label_candlestick_dates
 
   belongs_to :merchandise_rate
 
@@ -70,5 +72,22 @@ class CandlestickDate < ApplicationRecord
 
   def check_date_is_current_month
     Time.now.strftime("%Y%m") == self.date.strftime("%Y%m")
+  end
+
+  #cl_001
+  def is_cl_001_high_pattern?
+    c_before = self.before_candlestick
+    return false if !c_before.present?
+
+    self.candlestick_hours.where(hour: [ 7, 8, 9 ])
+      .any? { |c_hour| c_hour.high > c_before.high }
+  end
+
+  def is_cl_001_low_pattern?
+    c_before = self.before_candlestick
+    return false if !c_before.present?
+
+    self.candlestick_hours.where(hour: [ 7, 8, 9 ])
+      .any? { |c_hour| c_hour.low < c_before.low }
   end
 end
