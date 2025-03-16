@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "b573aa2f-9f60-4193-a636-d11b66a6bc02",
-		"name": "bachs-data room",
+		"name": "bachs-data_room",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "1904453"
 	},
@@ -162,6 +162,94 @@
 							]
 						},
 						"description": "Dùng để update data candlestick từ binance\n\n- Lưu ý  \n    \n- Không truyền time_type sẽ update toàn bộ các time\n    \n\ntime_type: {day: 1, week: 2, month: 3, hour: 4, m15: 5}"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pattern",
+			"item": [
+				{
+					"name": "create pattern",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    // cl_001\n    \"pattern_id\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{v1}}/patterns",
+							"host": [
+								"{{v1}}"
+							],
+							"path": [
+								"patterns"
+							]
+						},
+						"description": "Dùng để update data candlestick từ binance\n\n- Lưu ý  \n    \n- Không truyền time_type sẽ update toàn bộ các time\n    \n\ntime_type: {day: 1, week: 2, month: 3, hour: 4, m15: 5}"
+					},
+					"response": []
+				},
+				{
+					"name": "list_pattern",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{v1}}/patterns/list_pattern?merchandise_rate_id=35",
+							"host": [
+								"{{v1}}"
+							],
+							"path": [
+								"patterns",
+								"list_pattern"
+							],
+							"query": [
+								{
+									"key": "merchandise_rate_id",
+									"value": "35"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "index",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{v1}}/patterns?merchandise_rate_id=35&pattern_id=4",
+							"host": [
+								"{{v1}}"
+							],
+							"path": [
+								"patterns"
+							],
+							"query": [
+								{
+									"key": "interval",
+									"value": "date",
+									"disabled": true
+								},
+								{
+									"key": "merchandise_rate_id",
+									"value": "35"
+								},
+								{
+									"key": "pattern_id",
+									"value": "4"
+								}
+							]
+						}
 					},
 					"response": []
 				}
