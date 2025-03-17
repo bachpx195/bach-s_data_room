@@ -21,7 +21,6 @@ module CandlestickServices
     # b1: Kiem tra xem nhung candlestick nao chua co metric => tinh metric cho nhung candlestick do
     def create_data
       merchandise_rate_ids.each do |merchandise_rate_id|
-        candlestick_dates = CandlestickDate.where(merchandise_rate_id: merchandise_rate_id)
         merchandise_rate = MerchandiseRate.find_by(id: merchandise_rate_id)
         return unless merchandise_rate.present?
 

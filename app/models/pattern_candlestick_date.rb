@@ -7,6 +7,8 @@
 #  candlestick_date_id :bigint           not null
 #  merchandise_rate_id :bigint           not null
 #  date                :date
+#  result              :string(45)
+#  pattern_note        :text(65535)
 #  created_at          :datetime         not null
 #  updated_at          :datetime         not null
 #

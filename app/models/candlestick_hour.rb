@@ -25,6 +25,11 @@ class CandlestickHour < ApplicationRecord
 
   C_TYPE = "hours".freeze
 
+  # Window là số ngày (hoặc giờ) bạn chọn để tính trung bình và độ lệch chuẩn của biến động
+  C_WINDOW = 24
+
+  has_one :range_candlestick_hour, dependent: :destroy
+
   has_many :label_candlestick_hours, dependent: :destroy
   has_many :labels, through: :label_candlestick_hours
 

@@ -25,6 +25,11 @@ class CandlestickDate < ApplicationRecord
 
   C_TYPE = "days".freeze
 
+  # Window là số ngày (hoặc giờ) bạn chọn để tính trung bình và độ lệch chuẩn của biến động
+  C_WINDOW = 7
+
+  has_one :range_candlestick_date, dependent: :destroy
+
   has_many :candlestick_hours, foreign_key: "parent_id"
   has_many :label_candlestick_dates, dependent: :destroy
   has_many :labels, through: :label_candlestick_dates
@@ -72,6 +77,10 @@ class CandlestickDate < ApplicationRecord
 
   def check_date_is_current_month
     Time.now.strftime("%Y%m") == self.date.strftime("%Y%m")
+  end
+
+  def c_hour(number)
+    candlestick_hours.where(hour: number).last
   end
 
   #cl_001

@@ -12,19 +12,34 @@
 #  updated_at :datetime         not null
 #
 class MerchandiseRate < ApplicationRecord
+  # candlestick
   has_many :candlestick_months
   has_many :candlestick_weeks
   has_many :candlestick_dates
   has_many :candlestick_hours
+
+  # date
   has_many :date_events
   has_many :event_masters
-  has_many :patterns
+
+  # metric
   has_many :metric_dates
+
+  # pattern
+  has_many :patterns
   has_many :pattern_candlestick_dates
+
+  # label
   has_many :label_candlestick_dates
   has_many :label_candlestick_hours
   has_many :label_candlestick_weeks
   has_many :label_candlestick_months
+
+  # range
+  has_many :range_candlestick_dates
+  has_many :range_candlestick_hours
+  has_many :range_candlestick_weeks
+  has_many :range_candlestick_months
 
   belongs_to :tag
   belongs_to :base, class_name: "Merchandise"

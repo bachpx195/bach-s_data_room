@@ -25,9 +25,18 @@ module CandlestickCommon
     end
   end
 
+  # Old
   def before_candlestick
     before_date = self.date - 1.send(self.class::C_TYPE)
     self.class.where(merchandise_rate: self.merchandise_rate, date: before_date).first
+  end
+
+  def before_candlesticks(number_of_candlestick=1)
+    before_date = []
+    (1..number_of_candlestick).each do |number|
+      before_date << self.date - number.send(self.class::C_TYPE)
+    end
+    self.class.where(merchandise_rate: self.merchandise_rate, date: before_date).sort_by_type
   end
 
   def next_candlestick

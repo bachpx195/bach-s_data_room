@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_03_15_055907) do
+ActiveRecord::Schema[7.2].define(version: 2025_03_17_041728) do
   create_table "candlestick_dates", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "merchandise_rate_id", null: false
     t.date "date"
@@ -254,6 +254,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_15_055907) do
     t.bigint "candlestick_date_id", null: false
     t.bigint "merchandise_rate_id", null: false
     t.date "date"
+    t.string "result", limit: 45
+    t.text "pattern_note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["candlestick_date_id"], name: "index_pattern_candlestick_dates_on_candlestick_date_id"
@@ -271,6 +273,62 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_15_055907) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["merchandise_rate_id"], name: "index_patterns_on_merchandise_rate_id"
+  end
+
+  create_table "range_candlestick_dates", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.date "date"
+    t.float "mean_oc"
+    t.float "mean_hl"
+    t.float "standard_deviation_oc"
+    t.float "standard_deviation_hl"
+    t.bigint "candlestick_date_id", null: false
+    t.bigint "merchandise_rate_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["candlestick_date_id"], name: "index_range_candlestick_dates_on_candlestick_date_id"
+    t.index ["merchandise_rate_id"], name: "index_range_candlestick_dates_on_merchandise_rate_id"
+  end
+
+  create_table "range_candlestick_hours", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.datetime "date"
+    t.float "mean_oc"
+    t.float "mean_hl"
+    t.float "standard_deviation_oc"
+    t.float "standard_deviation_hl"
+    t.bigint "candlestick_hour_id", null: false
+    t.bigint "merchandise_rate_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["candlestick_hour_id"], name: "index_range_candlestick_hours_on_candlestick_hour_id"
+    t.index ["merchandise_rate_id"], name: "index_range_candlestick_hours_on_merchandise_rate_id"
+  end
+
+  create_table "range_candlestick_months", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.date "date"
+    t.float "mean_oc"
+    t.float "mean_hl"
+    t.float "standard_deviation_oc"
+    t.float "standard_deviation_hl"
+    t.bigint "candlestick_month_id", null: false
+    t.bigint "merchandise_rate_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["candlestick_month_id"], name: "index_range_candlestick_months_on_candlestick_month_id"
+    t.index ["merchandise_rate_id"], name: "index_range_candlestick_months_on_merchandise_rate_id"
+  end
+
+  create_table "range_candlestick_weeks", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.date "date"
+    t.float "mean_oc"
+    t.float "mean_hl"
+    t.float "standard_deviation_oc"
+    t.float "standard_deviation_hl"
+    t.bigint "candlestick_week_id", null: false
+    t.bigint "merchandise_rate_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["candlestick_week_id"], name: "index_range_candlestick_weeks_on_candlestick_week_id"
+    t.index ["merchandise_rate_id"], name: "index_range_candlestick_weeks_on_merchandise_rate_id"
   end
 
   create_table "system_configs", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -340,5 +398,13 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_15_055907) do
   add_foreign_key "pattern_candlestick_dates", "merchandise_rates"
   add_foreign_key "pattern_candlestick_dates", "patterns"
   add_foreign_key "patterns", "merchandise_rates"
+  add_foreign_key "range_candlestick_dates", "candlestick_dates"
+  add_foreign_key "range_candlestick_dates", "merchandise_rates"
+  add_foreign_key "range_candlestick_hours", "candlestick_hours"
+  add_foreign_key "range_candlestick_hours", "merchandise_rates"
+  add_foreign_key "range_candlestick_months", "candlestick_months"
+  add_foreign_key "range_candlestick_months", "merchandise_rates"
+  add_foreign_key "range_candlestick_weeks", "candlestick_weeks"
+  add_foreign_key "range_candlestick_weeks", "merchandise_rates"
   add_foreign_key "week_masters", "month_masters"
 end
