@@ -51,6 +51,7 @@ class Api::V1::CandlesticksController < Api::V1::BaseApiController
       result[:create_candlestick] = CandlestickServices::CreateService.new(params["merchandise_rate_ids"]).execute
       result[:create_metric_date] = CandlestickServices::CreateMetricDateService.new(params["merchandise_rate_ids"]).execute
       result[:create_label] = CandlestickServices::CreateLabelService.new.execute
+      result[:create_range] = CandlestickServices::CreateRangeService.new.execute
     end
 
     render json: result
