@@ -27,6 +27,7 @@ class CandlestickDate < ApplicationRecord
 
   # Window là số ngày (hoặc giờ) bạn chọn để tính trung bình và độ lệch chuẩn của biến động
   C_WINDOW = 7
+  C_RANGE = "range_candlestick_date"
 
   has_one :range_candlestick_date, dependent: :destroy
 

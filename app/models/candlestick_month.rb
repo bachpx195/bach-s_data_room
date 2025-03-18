@@ -28,6 +28,8 @@ class CandlestickMonth < ApplicationRecord
   # Window là số ngày (hoặc giờ) bạn chọn để tính trung bình và độ lệch chuẩn của biến động
   C_WINDOW = 12
 
+  C_RANGE = "range_candlestick_month"
+
   has_one :range_candlestick_month, dependent: :destroy
 
   has_many :label_candlestick_months, dependent: :destroy
