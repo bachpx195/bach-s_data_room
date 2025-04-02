@@ -28,7 +28,7 @@ module CandlestickServices
         start_time = merchandise_rate_last_candlestick_date merchandise_rate
         return if check_last_date_is_previous_month(start_time)
 
-        b_data = get_binance_data(merchandise_rate, start_time.to_i) if start_time.present?
+        b_data = get_binance_data(merchandise_rate, start_time.to_time.to_i) if start_time.present?
         candlestick_records = build_candlestick_records(merchandise_rate, b_data) if b_data.present?
 
         if candlestick_records.present?
