@@ -10,14 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_03_17_041728) do
+ActiveRecord::Schema[7.2].define(version: 2025_04_06_023919) do
   create_table "candlestick_dates", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "merchandise_rate_id", null: false
     t.date "date"
     t.string "date_name"
     t.string "candlestick_type"
     t.float "return_oc"
+    t.string "range_oc_type", limit: 45
     t.float "return_hl"
+    t.string "range_hl_type", limit: 45
     t.float "open"
     t.float "high"
     t.float "close"
@@ -42,7 +44,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_17_041728) do
     t.integer "hour"
     t.string "candlestick_type"
     t.float "return_oc"
+    t.string "range_oc_type", limit: 45
     t.float "return_hl"
+    t.string "range_hl_type", limit: 45
     t.float "open"
     t.float "high"
     t.float "close"
@@ -65,7 +69,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_17_041728) do
     t.integer "year"
     t.string "candlestick_type"
     t.float "return_oc"
+    t.string "range_oc_type", limit: 45
     t.float "return_hl"
+    t.string "range_hl_type", limit: 45
     t.float "open"
     t.float "high"
     t.float "close"
@@ -85,7 +91,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_17_041728) do
     t.date "date"
     t.string "candlestick_type"
     t.float "return_oc"
+    t.string "range_oc_type", limit: 45
     t.float "return_hl"
+    t.string "range_hl_type", limit: 45
     t.float "open"
     t.float "high"
     t.float "close"
@@ -275,11 +283,33 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_17_041728) do
     t.index ["merchandise_rate_id"], name: "index_patterns_on_merchandise_rate_id"
   end
 
+  create_table "positions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "merchandise_rate_id", null: false
+    t.string "result"
+    t.datetime "start_date"
+    t.datetime "end_date"
+    t.string "order_type"
+    t.integer "leverage"
+    t.float "entry"
+    t.float "escape"
+    t.float "return_usdt"
+    t.float "return_change"
+    t.float "position_total"
+    t.float "balance"
+    t.text "note"
+    t.integer "period_min"
+    t.integer "period_hour"
+    t.float "period_day"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["merchandise_rate_id"], name: "index_positions_on_merchandise_rate_id"
+  end
+
   create_table "range_candlestick_dates", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.date "date"
     t.float "mean_oc"
-    t.float "mean_hl"
     t.float "standard_deviation_oc"
+    t.float "mean_hl"
     t.float "standard_deviation_hl"
     t.bigint "candlestick_date_id", null: false
     t.bigint "merchandise_rate_id", null: false
@@ -292,8 +322,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_17_041728) do
   create_table "range_candlestick_hours", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.datetime "date"
     t.float "mean_oc"
-    t.float "mean_hl"
     t.float "standard_deviation_oc"
+    t.float "mean_hl"
     t.float "standard_deviation_hl"
     t.bigint "candlestick_hour_id", null: false
     t.bigint "merchandise_rate_id", null: false
@@ -306,8 +336,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_17_041728) do
   create_table "range_candlestick_months", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.date "date"
     t.float "mean_oc"
-    t.float "mean_hl"
     t.float "standard_deviation_oc"
+    t.float "mean_hl"
     t.float "standard_deviation_hl"
     t.bigint "candlestick_month_id", null: false
     t.bigint "merchandise_rate_id", null: false
@@ -320,8 +350,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_17_041728) do
   create_table "range_candlestick_weeks", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.date "date"
     t.float "mean_oc"
-    t.float "mean_hl"
     t.float "standard_deviation_oc"
+    t.float "mean_hl"
     t.float "standard_deviation_hl"
     t.bigint "candlestick_week_id", null: false
     t.bigint "merchandise_rate_id", null: false
@@ -398,6 +428,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_03_17_041728) do
   add_foreign_key "pattern_candlestick_dates", "merchandise_rates"
   add_foreign_key "pattern_candlestick_dates", "patterns"
   add_foreign_key "patterns", "merchandise_rates"
+  add_foreign_key "positions", "merchandise_rates"
   add_foreign_key "range_candlestick_dates", "candlestick_dates"
   add_foreign_key "range_candlestick_dates", "merchandise_rates"
   add_foreign_key "range_candlestick_hours", "candlestick_hours"

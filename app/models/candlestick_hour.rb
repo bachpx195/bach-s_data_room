@@ -9,7 +9,9 @@
 #  hour                :integer
 #  candlestick_type    :string(255)
 #  return_oc           :float(24)
+#  range_oc_type       :string(45)
 #  return_hl           :float(24)
+#  range_hl_type       :string(45)
 #  open                :float(24)
 #  high                :float(24)
 #  close               :float(24)
