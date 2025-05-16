@@ -176,8 +176,6 @@ GEM
     pry-byebug (3.10.1)
       byebug (~> 11.0)
       pry (>= 0.13, < 0.15)
-    pry-rails (0.3.11)
-      pry (>= 0.13.0)
     pry-stack_explorer (0.6.1)
       binding_of_caller (~> 1.0)
       pry (~> 0.13)
@@ -187,9 +185,10 @@ GEM
     puma (6.6.0)
       nio4r (~> 2.0)
     racc (1.8.1)
-    rack (3.1.11)
-    rack-cors (2.0.2)
-      rack (>= 2.0.0)
+    rack (3.1.14)
+    rack-cors (3.0.0)
+      logger
+      rack (>= 3.0.14)
     rack-session (2.1.0)
       base64 (>= 0.1.0)
       rack (>= 3.0.0)
@@ -299,7 +298,6 @@ DEPENDENCIES
   jbuilder
   mysql2 (~> 0.5)
   pry-byebug
-  pry-rails
   pry-stack_explorer
   puma (>= 5.0)
   rack-cors
